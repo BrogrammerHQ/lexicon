@@ -1,9 +1,9 @@
 import { Box, Divider, Text } from "@chakra-ui/react";
 import React from "react";
 
-function JargonListItem({ id, title }: any) {
+function JargonListItem({ title }: any) {
   return (
-    <Box padding={"0.2rem 0.3rem"}>
+    <Box padding={"0.2rem 0.3rem"} cursor="pointer">
       <Text fontSize={"xl"} p={1}>
         {title}
       </Text>

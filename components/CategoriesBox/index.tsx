@@ -14,6 +14,7 @@ function CategoriesBox({ imageUrl, imageAlt, title, id }: CategoriesBoxProps) {
   return (
     <Link href={`/app/${id}`}>
       <Box
+        cursor="pointer"
         maxW="sm"
         borderWidth="1px"
         borderRadius="lg"
