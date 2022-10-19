@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 import { Box, Container } from "@chakra-ui/react";
-import { GetServerSideProps } from "next";
+import { GetServerSideProps, GetStaticProps } from "next";
 import Link from "next/link";
 import React, { useState } from "react";
 import Heading from "../../../components/Heading";
@@ -36,7 +36,8 @@ function Category({ jargons, title, category_id }: any) {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getStaticProps: GetStaticProps = async (context) => {
+  // export const getServerSideProps: GetServerSideProps = async (context) => {
   const categoryId = context.params && context.params.category;
 
   const GET_JARGONS_LIST = gql`
@@ -76,5 +77,38 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     },
   };
 };
+
+export async function getStaticPaths() {
+  const GET_CATEGORIES_LIST = gql`
+    {
+      jargon_categories {
+        id
+      }
+    }
+  `;
+
+  // const nhostSession = await useQuery(GET_CATEGORIES_LIST);
+  const data = await nhost.graphql.request(GET_CATEGORIES_LIST);
+
+  if (data.error) {
+    console.log(data.error);
+    return {
+      props: {
+        error: data.error,
+      },
+    };
+  }
+
+  return {
+    paths: data.data.jargon_categories.map((el: any) => {
+      return {
+        params: {
+          category: el.id,
+        },
+      };
+    }),
+    fallback: true,
+  };
+}
 
 export default Category;

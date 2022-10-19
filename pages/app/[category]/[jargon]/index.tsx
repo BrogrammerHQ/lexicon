@@ -9,7 +9,12 @@ import {
   Image,
   Text,
 } from "@chakra-ui/react";
-import { GetServerSideProps } from "next";
+import {
+  GetServerSideProps,
+  GetStaticPaths,
+  GetStaticPathsContext,
+  GetStaticProps,
+} from "next";
 import Link from "next/link";
 import React from "react";
 import Bookmark from "../../../../components/Icons/Bookmark";
@@ -52,7 +57,8 @@ function Jargon({ jargon }: any) {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getStaticProps: GetStaticProps = async (context) => {
+  // export const getServerSideProps: GetServerSideProps = async (context) => {
   const categoryId = context.params && context.params.category;
   const jargonId = context.params && context.params.jargon;
 
@@ -87,5 +93,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     },
   };
 };
+
+export async function getStaticPaths() {
+  return { paths: [], fallback: true };
+}
 
 export default Jargon;

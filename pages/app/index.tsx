@@ -70,7 +70,37 @@ const App: NextPage = ({ jargon_categories }: any) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+// export const getServerSideProps: GetServerSideProps = async (context) => {
+//   const GET_CATEGORIES_LIST = gql`
+//     {
+//       jargon_categories {
+//         id
+//         title
+//         img
+//       }
+//     }
+//   `;
+
+//   // const nhostSession = await useQuery(GET_CATEGORIES_LIST);
+//   const data = await nhost.graphql.request(GET_CATEGORIES_LIST);
+
+//   if (data.error) {
+//     console.log(data.error);
+//     return {
+//       props: {
+//         error: data.error,
+//       },
+//     };
+//   }
+
+//   return {
+//     props: {
+//       jargon_categories: data.data.jargon_categories,
+//     },
+//   };
+// };
+
+export async function getStaticProps() {
   const GET_CATEGORIES_LIST = gql`
     {
       jargon_categories {
@@ -98,6 +128,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       jargon_categories: data.data.jargon_categories,
     },
   };
-};
+}
 
 export default App;
