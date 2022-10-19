@@ -5,13 +5,19 @@ import { NhostApolloProvider } from "@nhost/react-apollo";
 import { ChakraProvider, ColorModeScript } from "@chakra-ui/react";
 import theme from "../utils/theme";
 import { SessionProvider } from "next-auth/react";
+import { Session } from "next-auth";
 
 const nhost = new NhostClient({
   subdomain: process.env.NEXT_PUBLIC_NHOST_SUBDOMAIN || "",
   region: process.env.NEXT_PUBLIC_NHOST_REGION || "",
 });
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({
+  Component,
+  pageProps,
+}: AppProps<{
+  session: Session;
+}>) {
   return (
     <SessionProvider session={pageProps.session}>
       <ChakraProvider theme={theme}>
