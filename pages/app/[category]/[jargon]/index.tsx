@@ -1,31 +1,52 @@
 import { gql } from "@apollo/client";
-import { Box, Container, Heading, Image, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Container,
+  Flex,
+  Heading,
+  IconButton,
+  Image,
+  Text,
+} from "@chakra-ui/react";
 import { GetServerSideProps } from "next";
 import Link from "next/link";
 import React from "react";
+import Bookmark from "../../../../components/Icons/Bookmark";
+import Like from "../../../../components/Icons/Like";
 import JargonListItem from "../../../../components/JargonListItem";
 import { nhost } from "../../../_app";
 
 function Jargon({ jargon }: any) {
   return (
     <main>
-      <Container maxW="md" padding={0}>
-        {jargon.img && (
-          <Image src={jargon.img} alt={jargon.title} width="100%" />
-        )}
-        <Box p={6}>
-          <Heading
-            as="h2"
-            fontSize="2xl"
-            fontWeight="semibold"
-            textAlign="left"
-          >
-            {jargon.title}
-          </Heading>
-          <Text padding={"1rem 0"} fontSize="xl" textAlign={"justify"}>
-            {jargon.long_desc}
-          </Text>
-        </Box>
+      <Container maxW="md" padding={0} height="100vh">
+        <Flex flexDir={"column"} height="full">
+          <Box flex={1}>
+            {jargon.img && (
+              <Image src={jargon.img} alt={jargon.title} width="100%" />
+            )}
+            <Box p={6}>
+              <Heading
+                as="h2"
+                fontSize="2xl"
+                fontWeight="semibold"
+                textAlign="left"
+              >
+                {jargon.title}
+              </Heading>
+              <Text padding={"1rem 0"} fontSize="xl" textAlign={"justify"}>
+                {jargon.long_desc}
+              </Text>
+            </Box>
+          </Box>
+          <Box p={6}>
+            <Flex flexDirection={"row-reverse"} gap={2}>
+              <IconButton aria-label="Like" icon={<Like />} />
+              <IconButton aria-label="Bookmark" icon={<Bookmark />} />
+            </Flex>
+          </Box>
+        </Flex>
       </Container>
     </main>
   );
