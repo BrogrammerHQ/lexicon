@@ -94,38 +94,44 @@ export const getStaticProps: GetStaticProps = async (context) => {
     },
   };
 };
+export async function getStaticPaths() {
+  const GET_CATEGORIES_LIST = gql`
+    {
+      jargons {
+        id
+        category
+      }
+    }
+  `;
 
-// export async function getStaticPaths(context: GetStaticPathsContext) {
-//   console.log(context);
+  // const nhostSession = await useQuery(GET_CATEGORIES_LIST);
+  const data = await nhost.graphql.request(GET_CATEGORIES_LIST);
 
-//   const GET_JARGONS_LIST = gql`
-//     {
-//       jargons(where: { category: { _eq: "{}" } }) {
-//         id
-//       }
-//     }
-//   `;
+  if (data.error) {
+    return {
+      paths: [],
+      fallback: "blocking",
+    };
+  }
 
-//   // const nhostSession = await useQuery(GET_JARGONS_LIST);
-//   const data = await nhost.graphql.request(GET_JARGONS_LIST);
+  console.log(
+    data.data.jargons.map((category: any) => ({
+      params: {
+        category: category.category,
+        jargon: category.id,
+      },
+    }))
+  );
 
-//   if (data.error) {
-//     return {
-//       paths: [],
-//       fallback: "blocking",
-//     };
-//   }
-
-//   return {
-//     paths: [
-//       ...data.data.jargon_categories.map((category: any) => ({
-//         params: {
-//           category: category.id,
-//         },
-//       })),
-//     ],
-//     fallback: "blocking",
-//   };
-// }
+  return {
+    paths: data.data.jargons.map((category: any) => ({
+      params: {
+        category: category.category,
+        jargon: category.id,
+      },
+    })),
+    fallback: "blocking",
+  };
+}
 
 export default Jargon;

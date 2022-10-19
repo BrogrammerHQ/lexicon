@@ -98,7 +98,7 @@ export async function getStaticPaths() {
   }
 
   return {
-    paths: data.data.jargon_categories.map((category: any) => ({
+    paths: data.data.jargons.map((category: any) => ({
       params: {
         category: category.category,
         jargon: category.id,
