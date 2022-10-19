@@ -79,34 +79,8 @@ export const getStaticProps: GetStaticProps = async (context) => {
 };
 
 export async function getStaticPaths() {
-  const GET_CATEGORIES_LIST = gql`
-    {
-      jargon_categories {
-        id
-      }
-    }
-  `;
-
-  // const nhostSession = await useQuery(GET_CATEGORIES_LIST);
-  const data = await nhost.graphql.request(GET_CATEGORIES_LIST);
-
-  if (data.error) {
-    console.log(data.error);
-    return {
-      props: {
-        error: data.error,
-      },
-    };
-  }
-
   return {
-    paths: data.data.jargon_categories.map((el: any) => {
-      return {
-        params: {
-          category: el.id,
-        },
-      };
-    }),
+    paths: [],
     fallback: true,
   };
 }
