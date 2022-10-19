@@ -11,6 +11,8 @@ import { nhost } from "../../_app";
 function Category({ jargons, title, category_id }: any) {
   const [searchTerm, setSearchTerm] = useState("");
 
+  console.log(jargons, title, category_id);
+
   return (
     <main>
       <Container maxW="md" padding={"1rem"}>
@@ -39,6 +41,8 @@ function Category({ jargons, title, category_id }: any) {
 export const getStaticProps: GetStaticProps = async (context) => {
   // export const getServerSideProps: GetServerSideProps = async (context) => {
   const categoryId = context.params && context.params.category;
+
+  console.log(context.params);
 
   const GET_JARGONS_LIST = gql`
     {
@@ -81,7 +85,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 export async function getStaticPaths() {
   return {
     paths: [],
-    fallback: true,
+    fallback: "blocking",
   };
 }
 

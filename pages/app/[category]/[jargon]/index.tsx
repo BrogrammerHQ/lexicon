@@ -22,7 +22,13 @@ import Like from "../../../../components/Icons/Like";
 import JargonListItem from "../../../../components/JargonListItem";
 import { nhost } from "../../../_app";
 
-function Jargon({ jargon }: any) {
+function Jargon(props: any) {
+  const { jargon, error } = props;
+
+  console.log("props", props);
+  console.log("jargon", jargon);
+  console.log("error", error);
+
   return (
     <main>
       <Container maxW="md" padding={0} height="100vh">
@@ -76,6 +82,8 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   const data = await nhost.graphql.request(GET_JARGON);
 
+  console.log(data);
+
   if (data.error) {
     console.log(data.error);
     return {
@@ -95,7 +103,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 };
 
 export async function getStaticPaths() {
-  return { paths: [], fallback: true };
+  return { paths: [], fallback: "blocking" };
 }
 
 export default Jargon;
