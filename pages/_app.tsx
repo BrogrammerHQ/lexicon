@@ -6,6 +6,7 @@ import { ChakraProvider, ColorModeScript } from "@chakra-ui/react";
 import theme from "../utils/theme";
 import { SessionProvider } from "next-auth/react";
 import { Session } from "next-auth";
+import Script from "next/script";
 
 const nhost = new NhostClient({
   subdomain: process.env.NEXT_PUBLIC_NHOST_SUBDOMAIN || "",
@@ -29,6 +30,19 @@ function MyApp({
           // }
         >
           <NhostApolloProvider nhost={nhost}>
+            <Script
+              async
+              src="https://www.googletagmanager.com/gtag/js?id=G-SSZRQYQ6GJ"
+            />
+            <Script id="google-analytics">
+              {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-SSZRQYQ6GJ');  
+          `}
+            </Script>
             <Component {...pageProps} />
           </NhostApolloProvider>
         </NhostNextProvider>
