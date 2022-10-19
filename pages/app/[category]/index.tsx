@@ -11,8 +11,6 @@ import { nhost } from "../../_app";
 function Category({ jargons, title, category_id }: any) {
   const [searchTerm, setSearchTerm] = useState("");
 
-  console.log(jargons, title, category_id);
-
   return (
     <main>
       <Container maxW="md" padding={"1rem"}>
@@ -42,8 +40,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
   // export const getServerSideProps: GetServerSideProps = async (context) => {
   const categoryId = context.params && context.params.category;
 
-  console.log(context.params);
-
   const GET_JARGONS_LIST = gql`
     {
       jargons(
@@ -65,7 +61,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const data = await nhost.graphql.request(GET_JARGONS_LIST);
 
   if (data.error) {
-    console.log(data.error);
     return {
       props: {
         error: data.error,
@@ -83,8 +78,32 @@ export const getStaticProps: GetStaticProps = async (context) => {
 };
 
 export async function getStaticPaths() {
+  const GET_CATEGORIES_LIST = gql`
+    {
+      jargons {
+        id
+        category
+      }
+    }
+  `;
+
+  // const nhostSession = await useQuery(GET_CATEGORIES_LIST);
+  const data = await nhost.graphql.request(GET_CATEGORIES_LIST);
+
+  if (data.error) {
+    return {
+      paths: [],
+      fallback: "blocking",
+    };
+  }
+
   return {
-    paths: [],
+    paths: data.data.jargon_categories.map((category: any) => ({
+      params: {
+        category: category.category,
+        jargon: category.id,
+      },
+    })),
     fallback: "blocking",
   };
 }

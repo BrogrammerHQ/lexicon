@@ -115,7 +115,6 @@ export async function getStaticProps() {
   const data = await nhost.graphql.request(GET_CATEGORIES_LIST);
 
   if (data.error) {
-    console.log(data.error);
     return {
       props: {
         error: data.error,

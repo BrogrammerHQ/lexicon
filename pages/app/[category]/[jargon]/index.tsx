@@ -25,10 +25,6 @@ import { nhost } from "../../../_app";
 function Jargon(props: any) {
   const { jargon, error } = props;
 
-  console.log("props", props);
-  console.log("jargon", jargon);
-  console.log("error", error);
-
   return (
     <main>
       <Container maxW="md" padding={0} height="100vh">
@@ -82,10 +78,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   const data = await nhost.graphql.request(GET_JARGON);
 
-  console.log(data);
-
   if (data.error) {
-    console.log(data.error);
     return {
       props: {
         error: data.error,
@@ -102,8 +95,37 @@ export const getStaticProps: GetStaticProps = async (context) => {
   };
 };
 
-export async function getStaticPaths() {
-  return { paths: [], fallback: "blocking" };
-}
+// export async function getStaticPaths(context: GetStaticPathsContext) {
+//   console.log(context);
+
+//   const GET_JARGONS_LIST = gql`
+//     {
+//       jargons(where: { category: { _eq: "{}" } }) {
+//         id
+//       }
+//     }
+//   `;
+
+//   // const nhostSession = await useQuery(GET_JARGONS_LIST);
+//   const data = await nhost.graphql.request(GET_JARGONS_LIST);
+
+//   if (data.error) {
+//     return {
+//       paths: [],
+//       fallback: "blocking",
+//     };
+//   }
+
+//   return {
+//     paths: [
+//       ...data.data.jargon_categories.map((category: any) => ({
+//         params: {
+//           category: category.id,
+//         },
+//       })),
+//     ],
+//     fallback: "blocking",
+//   };
+// }
 
 export default Jargon;

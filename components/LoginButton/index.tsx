@@ -6,8 +6,6 @@ import { FaGoogle } from "react-icons/fa";
 export default function LoginButton() {
   const { data: session } = useSession();
   if (session) {
-    console.log(session);
-
     return (
       <>
         {/* <button onClick={() => signOut()}>Sign out</button> */}
